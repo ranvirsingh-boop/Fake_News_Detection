@@ -68,7 +68,7 @@ if st.button("Detect"):
             verdict = verify_claim(user_input, evidence)
 
             st.subheader("🔎 Web Verification Result")
-            st.write(verdict)
+            st.info(verdict)
 
             if evidence:
                 st.subheader("🧾 Evidence from Trusted Sources")

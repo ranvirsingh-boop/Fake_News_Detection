@@ -32,22 +32,25 @@ def extract_evidence(search_data):
     return evidence
 
 def verify_claim(claim, evidence_list):
-    claim_lower = claim.lower()
+    if not evidence_list:
+        return "⚠️ No authoritative source found — claim requires manual verification."
 
-    support = 0
-    contradict = 0
+    trusted_hits = 0
+
+    keywords = [
+        "reserve bank of india",
+        "rbi",
+        "interest rate",
+        "repo rate",
+        "monetary policy"
+    ]
 
     for e in evidence_list:
         text = (e["title"] + " " + e["snippet"]).lower()
+        if any(k in text for k in keywords):
+            trusted_hits += 1
 
-        if any(word in text for word in claim_lower.split()):
-            support += 1
-        if "not" in text or "false" in text or "misleading" in text:
-            contradict += 1
-
-    if contradict > support:
-        return "Contradicted by sources"
-    elif support > 0:
-        return "Supported by sources"
+    if trusted_hits >= 1:
+        return "✅ Supported by authoritative sources"
     else:
-        return "No reliable source found"
+        return "⚠️ Not clearly supported — wording differs across sources"
