@@ -32,25 +32,28 @@ def extract_evidence(search_data):
     return evidence
 
 def verify_claim(claim, evidence_list):
+
     if not evidence_list:
         return "⚠️ No authoritative source found — claim requires manual verification."
 
-    trusted_hits = 0
+    support_hits = 0
 
-    keywords = [
+    trusted_keywords = [
         "reserve bank of india",
         "rbi",
-        "interest rate",
         "repo rate",
-        "monetary policy"
+        "interest rate",
+        "monetary policy",
+        "central bank"
     ]
 
     for e in evidence_list:
         text = (e["title"] + " " + e["snippet"]).lower()
-        if any(k in text for k in keywords):
-            trusted_hits += 1
 
-    if trusted_hits >= 1:
+        if any(keyword in text for keyword in trusted_keywords):
+            support_hits += 1
+
+    if support_hits >= 1:
         return "✅ Supported by authoritative sources"
     else:
-        return "⚠️ Not clearly supported — wording differs across sources"
+        return "⚠️ Mentioned by sources but phrasing differs — requires verification"

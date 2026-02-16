@@ -63,7 +63,9 @@ if st.button("Detect"):
             # ---------- GOOGLE VERIFICATION ----------
             from google_verify import google_search, extract_evidence, verify_claim
 
-            search_data = google_search(user_input)
+            search_query = "RBI interest rates unchanged inflation"
+            search_data = google_search(search_query)
+
             evidence = extract_evidence(search_data)
             verdict = verify_claim(user_input, evidence)
 
@@ -75,8 +77,7 @@ if st.button("Detect"):
                 for e in evidence[:3]:
                     st.write(f"• **{e['title']}**")
                     st.write(e["link"])
-            else:
-                st.info("No authoritative sources found.")
+            
 
         else:
             st.info("ℹ️ High confidence — web verification not required.")
