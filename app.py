@@ -64,7 +64,7 @@ if st.button("Detect"):
             st.error(f"❌ Fake News ({confidence:.2f}% confidence)")
 
         # ---------- UNCERTAINTY HANDLING ----------
-        if confidence < 85 & confidence > 60:
+        if confidence < 85 and confidence > 60:
             st.warning("⚠️ Low confidence prediction — verifying using trusted sources.")
 
             # ---------- GOOGLE VERIFICATION ----------
