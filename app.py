@@ -50,14 +50,21 @@ if st.button("Detect"):
         prediction = model.predict(X)[0]
         confidence = model.predict_proba(X).max() * 100
 
+        # Conservative decision for low confidence
+        if confidence < 60:
+            final_label = "Fake News"
+        else:
+            final_label = "Real News" if prediction == 1 else "Fake News"
+
+
         # ---------- ML RESULT ----------
-        if prediction == 1:
+        if final_label == "Real News":
             st.success(f"✅ Real News ({confidence:.2f}% confidence)")
         else:
             st.error(f"❌ Fake News ({confidence:.2f}% confidence)")
 
         # ---------- UNCERTAINTY HANDLING ----------
-        if confidence < 85:
+        if confidence < 85 & confidence > 60:
             st.warning("⚠️ Low confidence prediction — verifying using trusted sources.")
 
             # ---------- GOOGLE VERIFICATION ----------
